@@ -31,6 +31,38 @@ class Statement extends \PDOStatement
         return $this;
     }
 
+    public function bindBool($paramno, $param)
+    {
+        return $this->bindValue($paramno, $param, \PDO::PARAM_BOOL);
+    }
+
+    public function bindInt($paramno, $param)
+    {
+        return $this->bindValue($paramno, $param, \PDO::PARAM_INT);
+    }
+
+    public function bindString($paramno, $param)
+    {
+        return $this->bindValue($paramno, $param, \PDO::PARAM_STR);
+    }
+
+    public function bindFloat($paramno, $param)
+    {
+        return $this->bindValue($paramno, $param, \PDO::PARAM_STR);
+    }
+
+    public function bindDate($paramno, \DateTimeInterface $param)
+    {
+        $string = $param->format(SqlStandard::DATE_FORMAT);
+        return $this->bindValue($paramno, $string, \PDO::PARAM_STR);
+    }
+
+    public function bindDateTime($paramno, \DateTimeInterface $param)
+    {
+        $string = $param->format(SqlStandard::DATE_TIME_FORMAT);
+        return $this->bindValue($paramno, $string, \PDO::PARAM_STR);
+    }
+
     public function closeCursor()
     {
         if (!parent::closeCursor()) {
