@@ -63,6 +63,27 @@ class Statement extends \PDOStatement
         return $this->bindValue($paramno, $string, \PDO::PARAM_STR);
     }
 
+    public function bindAuto(array $params)
+    {
+        foreach ($params as $name => $value) {
+            if (is_bool($value)) {
+                $this->bindBool($name, $value);
+                continue;
+            };
+            if (is_int($value)) {
+                $this->bindInt($name, $value);
+                continue;
+            };
+            if ($value instanceof \DateTimeInterface) {
+                $this->bindDateTime($name, $value);
+                continue;
+            };
+            $this->bindString($name, $value);
+        };
+
+        return $this;
+    }
+
     public function closeCursor()
     {
         if (!parent::closeCursor()) {
